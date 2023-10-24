@@ -1,11 +1,8 @@
 package com.mycompany.residentevil4qa;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ResidentEvil4QA {
 
@@ -13,14 +10,11 @@ public class ResidentEvil4QA {
     private static int score = 0;
 
     private static JFrame frame;
-    private static JPanel questionPanel;
-    private static JPanel answerPanel;
-    private static JPanel scorePanel;
+    private static JPanel mainPanel;
     private static JLabel questionLabel;
-    private static JLabel scoreLabel;
-    private static List<JRadioButton> answerButtons;
     private static ButtonGroup buttonGroup;
-    private static JButton nextButton;
+    private static JRadioButton[] answerButtons;
+    private static JButton submitButton;
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> createAndShowGUI());
@@ -33,55 +27,47 @@ public class ResidentEvil4QA {
 
         frame = new JFrame("Resident Evil 4 Quiz");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new BorderLayout());
 
-        questionPanel = new JPanel(new FlowLayout());
-        questionLabel = new JLabel();
-        questionLabel.setText("Pergunta: " + questions[currentQuestion]);
-        questionPanel.add(questionLabel);
+        mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
+        frame.add(mainPanel);
 
-        answerPanel = new JPanel(new GridLayout(0, 1));
-        answerButtons = new ArrayList<>();
+        questionLabel = new JLabel(questions[currentQuestion]);
+        mainPanel.add(questionLabel, BorderLayout.NORTH);
+
         buttonGroup = new ButtonGroup();
+        answerButtons = new JRadioButton[answers[currentQuestion].length];
+        JPanel answerPanel = new JPanel();
+        answerPanel.setLayout(new GridLayout(0, 1));
 
         for (int i = 0; i < answers[currentQuestion].length; i++) {
-            JRadioButton answerButton = new JRadioButton(answers[currentQuestion][i]);
-            answerButton.addActionListener(new AnswerListener());
-            answerPanel.add(answerButton);
-            answerButtons.add(answerButton);
-            buttonGroup.add(answerButton);
+            answerButtons[i] = new JRadioButton(answers[currentQuestion][i]);
+            answerPanel.add(answerButtons[i]);
+            buttonGroup.add(answerButtons[i]);
         }
 
-        scorePanel = new JPanel();
-        scoreLabel = new JLabel("Pontuação: " + score);
-        scorePanel.add(scoreLabel);
+        mainPanel.add(answerPanel, BorderLayout.CENTER);
 
-        nextButton = new JButton("Próxima Pergunta");
-        nextButton.addActionListener(new NextQuestionListener());
+        submitButton = new JButton("Enviar Resposta");
+        submitButton.addActionListener(new SubmitAnswerListener());
+        mainPanel.add(submitButton, BorderLayout.SOUTH);
 
-        frame.add(questionPanel, BorderLayout.NORTH);
-        frame.add(answerPanel, BorderLayout.CENTER);
-        frame.add(scorePanel, BorderLayout.SOUTH);
-        frame.add(nextButton, BorderLayout.EAST);
         frame.pack();
         frame.setVisible(true);
     }
 
-    private static class AnswerListener implements ActionListener {
+    private static class SubmitAnswerListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            for (int i = 0; i < answerButtons.size(); i++) {
-                if (answerButtons.get(i).isSelected() && i == correctAnswers[currentQuestion]) {
-                    score++;
+            for (int i = 0; i < answerButtons.length; i++) {
+                if (answerButtons[i].isSelected()) {
+                    if (i == correctAnswers[currentQuestion]) {
+                        score++;
+                    }
                     break;
                 }
             }
-        }
-    }
 
-    private static class NextQuestionListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
             if (currentQuestion < questions.length - 1) {
                 currentQuestion++;
                 createAndShowGUI();
@@ -110,4 +96,3 @@ public class ResidentEvil4QA {
 
     private static int[] correctAnswers = {1, 2, 3, 3, 2};
 }
-

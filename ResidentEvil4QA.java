@@ -11,10 +11,12 @@ public class ResidentEvil4QA {
 
     private static JFrame frame;
     private static JPanel mainPanel;
+    private static JPanel questionPanel;
     private static JLabel questionLabel;
     private static ButtonGroup buttonGroup;
     private static JRadioButton[] answerButtons;
     private static JButton submitButton;
+    private static JTextArea correctAnswersTextArea;
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> createAndShowGUI());
@@ -29,11 +31,15 @@ public class ResidentEvil4QA {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         mainPanel = new JPanel();
-        mainPanel.setLayout(new BorderLayout());
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         frame.add(mainPanel);
 
-        questionLabel = new JLabel(questions[currentQuestion]);
-        mainPanel.add(questionLabel, BorderLayout.NORTH);
+        questionPanel = new JPanel();
+        questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.Y_AXIS));
+        questionLabel = new JLabel("<html><div style='text-align: center;'>" + questions[currentQuestion] + "</div></html>");
+        questionLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        questionPanel.add(questionLabel);
+        mainPanel.add(questionPanel);
 
         buttonGroup = new ButtonGroup();
         answerButtons = new JRadioButton[answers[currentQuestion].length];
@@ -46,12 +52,20 @@ public class ResidentEvil4QA {
             buttonGroup.add(answerButtons[i]);
         }
 
-        mainPanel.add(answerPanel, BorderLayout.CENTER);
+        mainPanel.add(answerPanel);
 
+        JPanel buttonPanel = new JPanel();
         submitButton = new JButton("Enviar Resposta");
+        submitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         submitButton.addActionListener(new SubmitAnswerListener());
-        mainPanel.add(submitButton, BorderLayout.SOUTH);
+        buttonPanel.add(submitButton);
+        mainPanel.add(buttonPanel);
 
+        correctAnswersTextArea = new JTextArea(10, 40); // Configura o tamanho da caixa de texto
+        correctAnswersTextArea.setEditable(false); // Impede a edição do texto
+        mainPanel.add(correctAnswersTextArea);
+
+        frame.setPreferredSize(new Dimension(600, 400)); // Aumenta a altura da janela
         frame.pack();
         frame.setVisible(true);
     }
@@ -59,6 +73,8 @@ public class ResidentEvil4QA {
     private static class SubmitAnswerListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            submitButton.setEnabled(false);
+
             for (int i = 0; i < answerButtons.length; i++) {
                 if (answerButtons[i].isSelected()) {
                     if (i == correctAnswers[currentQuestion]) {
@@ -72,10 +88,19 @@ public class ResidentEvil4QA {
                 currentQuestion++;
                 createAndShowGUI();
             } else {
-                JOptionPane.showMessageDialog(null, "Jogo encerrado! Pontuação: " + score + " de " + questions.length);
-                System.exit(0);
+                displayCorrectAnswers();
             }
         }
+    }
+
+    private static void displayCorrectAnswers() {
+        correctAnswersTextArea.setText("Respostas Corretas:\n\n");
+        for (int i = 0; i < questions.length; i++) {
+            correctAnswersTextArea.append("Pergunta " + (i + 1) + ": " + questions[i] + "\n");
+            correctAnswersTextArea.append("Resposta Correta: " + answers[i][correctAnswers[i]] + "\n\n");
+        }
+
+        correctAnswersTextArea.append("Pontuação Final: " + score + " de " + questions.length);
     }
 
     private static String[] questions = {

@@ -5,4 +5,4 @@
 This game was developed using the Java programming language and created in the Apache NetBeans IDE.
 
 
-This project is a college project, demonstrating the use of the technique and concepts learned about Object Oriented Programming.
+This project it's a simple college project, demonstrating the use of the technique and concepts learned about Object Oriented Programming.

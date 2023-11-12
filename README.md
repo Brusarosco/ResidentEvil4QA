@@ -9,8 +9,20 @@ This project it's a simple college project, demonstrating the use of the techniq
 
 
 ### Developed by:
-* Name: Guilherme Brusarosco Franco
-* College: Universidade São Francisco 
-* R.A: 001202006795
+<table>
+  <tr>
+  <td>Name</td>
+  <td>College</td>
+  <td>R.A</td>
+  </tr>
+  <tr>
+  <td>Guilherme Brusarosco Franco</td>
+  <td>Universidade São Francisco</td>
+  <td>001202006795</td>
+     </tr>
+  </table>
+
+### Diagrama de Classes: 
+![Diagrama de classes Resident Evil](https://github.com/Brusarosco/ResidentEvil4QA/assets/71615014/b6673f3a-3bd2-4906-b09d-cee72955c46f)
 
 

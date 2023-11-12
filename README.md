@@ -6,3 +6,11 @@ This game was developed using the Java programming language and created in the A
 
 
 This project it's a simple college project, demonstrating the use of the technique and concepts learned about Object Oriented Programming.
+
+
+### Developed by:
+* Name: Guilherme Brusarosco Franco
+* College: Universidade São Francisco 
+* R.A: 001202006795
+
+

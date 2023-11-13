@@ -28,4 +28,4 @@ This project it's a simple college project, demonstrating the use of the techniq
 ### Class Diagram: 
 ![Diagrama de classes Resident Evil](https://github.com/Brusarosco/ResidentEvil4QA/assets/71615014/b6673f3a-3bd2-4906-b09d-cee72955c46f)
 
-
+I hope you like it :)
